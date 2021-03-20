@@ -1,0 +1,71 @@
+body{
+    background-image: linear-gradient(180deg, rgb(223, 202, 202), rgb(226, 226, 180));
+}
+.calcWrapper{
+background-image: linear-gradient(180deg, rgb(179, 152, 152), rgb(248, 227, 212));
+width: 400px;
+height: 500px;
+border-radius: 20px;
+border: solid rgb(236, 236, 255) 8px;
+margin: 5% 0% 0% 20%;
+}
+.inOutWindow{
+    background-image: linear-gradient(180deg, rgb(233, 213, 213), rgb(221, 248, 212));
+    width: 383px;
+    height: 155px; 
+    border-radius: 20px;
+    margin: -2% 0% 0% 2%;
+}
+.buttonsWrapper{
+    display: flex;
+    flex-direction: row;
+    /* border: solid black 1px; */
+    width: 383px;
+    height: 312px; 
+    margin: 4% 0% 0% 2%;
+}
+.buttons{
+    /* border: solid black 1px; */
+    width: 230px;
+    height: 312px;
+}
+.button{
+    outline: none;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border-color: rgb(241, 166, 166);
+    margin: 1% 1% 1% 1%;
+    font-size: 20px;
+}
+.buttonEqual{
+    outline: none;
+    border-color: rgb(201, 171, 230);
+    width: 70px;
+    height: 70px;
+    border-radius: 40%;
+    margin: 1% 1% 1% 1%;
+    background-color: rgb(238, 218, 189);
+    font-size: 20px;
+}
+.operationButtons{
+        /* border: solid black 1px; */
+        width: 153px;
+        height: 312px;
+        margin: 1% 0 0 2%;
+}
+.operBtnStyle{
+    outline: none;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border-color: rgb(241, 166, 166);
+    margin: 1% 1% 1% 1%;
+    font-size: 20px;
+}
+.mainSings{
+    background-color: cadetblue;
+}
+.additionalSings{
+    background-color: rgb(165, 219, 221);  
+}
