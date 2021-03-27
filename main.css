@@ -7,7 +7,7 @@ width: 400px;
 height: 500px;
 border-radius: 20px;
 border: solid rgb(236, 236, 255) 8px;
-margin: 5% 0% 0% 20%;
+margin: auto;
 }
 .inOutWindow{
     background-image: linear-gradient(180deg, rgb(233, 213, 213), rgb(221, 248, 212));
@@ -58,14 +58,28 @@ margin: 5% 0% 0% 20%;
     outline: none;
     width: 70px;
     height: 70px;
-    border-radius: 50%;
+    border-radius: 45%;
     border-color: rgb(241, 166, 166);
     margin: 1% 1% 1% 1%;
     font-size: 20px;
+}
+.addOperBtnStyle{
 }
 .mainSings{
     background-color: cadetblue;
 }
 .additionalSings{
     background-color: rgb(165, 219, 221);  
+}
+.pNum{
+pointer-events: none;
+}
+.addMenu{
+    background-color: rgb(239, 240, 176); 
+    border-radius: 42%;
+    height: 55px;
+}
+.ce{
+    background-color: rgb(187, 138, 105);
+    border-radius: 40%;
 }
