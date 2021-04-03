@@ -1,4 +1,7 @@
+@import "fonts/font.css";
+
 body{
+
     background-image: linear-gradient(180deg, rgb(223, 202, 202), rgb(226, 226, 180));
 }
 .calcWrapper{
@@ -12,7 +15,7 @@ margin: auto;
 .inOutWindow{
     background-image: linear-gradient(180deg, rgb(233, 213, 213), rgb(221, 248, 212));
     width: 383px;
-    height: 155px; 
+    height: 155px;
     border-radius: 20px;
     margin: -2% 0% 0% 2%;
 }
@@ -21,7 +24,7 @@ margin: auto;
     flex-direction: row;
     /* border: solid black 1px; */
     width: 383px;
-    height: 312px; 
+    height: 312px;
     margin: 4% 0% 0% 2%;
 }
 .buttons{
@@ -69,13 +72,13 @@ margin: auto;
     background-color: cadetblue;
 }
 .additionalSings{
-    background-color: rgb(165, 219, 221);  
+    background-color: rgb(165, 219, 221);
 }
 .pNum{
 pointer-events: none;
 }
 .addMenu{
-    background-color: rgb(239, 240, 176); 
+    background-color: rgb(239, 240, 176);
     border-radius: 42%;
     height: 55px;
 }
@@ -85,4 +88,7 @@ pointer-events: none;
 }
 .hide{
     display: none;
+}
+button p{
+    background: transparent !important;
 }
