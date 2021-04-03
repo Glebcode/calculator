@@ -1,6 +1,8 @@
-let btnWrap = document.getElementById('btnWrapper');
 let display = document.getElementById('inOutWindow');
+let btnWrap = document.getElementById('btnWrapper');
 let operBtn = document.getElementById('operBtnWrap');
+let topBtn = document.getElementById('topBtn');
+let bottomBtn= document.getElementById('bottomBtn');
 
 createBtn();
 
@@ -11,76 +13,33 @@ for (let i = 0; i < 9; i++){
 btnWrap.innerHTML += `<button class="button">0</button>`;
 btnWrap.innerHTML += `<button class="button">.</button>`;
 btnWrap.innerHTML += `<button class="buttonEqual">=</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle ce">CE</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle addmenu" id="addMenu">...</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle additionalSings">(</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle additionalSings">)</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle mainSings" id="minus">-</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle mainSings" id="plus">+</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle mainSings" id="division">÷</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle mainSings" id="multiplication">×</button>`;
+topBtn.innerHTML += `<button class="operBtnStyle ce">CE</button>`;
+topBtn.innerHTML += `<button class="operBtnStyle addmenu" id="addMenu">...</button>`;
+topBtn.innerHTML += `<button class="operBtnStyle additionalSings">(</button>`;
+topBtn.innerHTML += `<button class="operBtnStyle additionalSings">)</button>`;
+bottomBtn.innerHTML += `<button class="operBtnStyle mainSings" id="minus">-</button>`;
+bottomBtn.innerHTML += `<button class="operBtnStyle mainSings" id="plus">+</button>`;
+bottomBtn.innerHTML += `<button class="operBtnStyle mainSings" id="division">÷</button>`;
+bottomBtn.innerHTML += `<button class="operBtnStyle mainSings" id="multiplication">×</button>`;
+
+changeableBtn.innerHTML += `<button class="operBtnStyle addOperBtnStyle mainSings">%</button>`;
+changeableBtn.innerHTML += `<button class="operBtnStyle addOperBtnStyle mainSings">√</button>`;
+changeableBtn.innerHTML += `<button class="operBtnStyle addOperBtnStyle mainSings">²</button>`;
+changeableBtn.innerHTML += `<button class="operBtnStyle addOperBtnStyle mainSings">π</button>`;
 }
 
 let addMenu = document.getElementById('addMenu');
-function addMenuFunc(){
-    let mainSings = document.getElementById("minus");
-    mainSings.remove();
-    let mainSings1 = document.getElementById("plus");
-    mainSings1.remove();
-    let mainSings2 = document.getElementById("division");
-    mainSings2.remove();
-    let mainSings3 = document.getElementById("multiplication");
-    mainSings3.remove();
 
-    // let i = 0;
-    // if( i < 4){    
-    //     let mainSings = document.getElementsByClassName("mainSings");
-    //     i++
-    //     mainSings.remove();
-    // }
-    operBtn.innerHTML += `<button class="operBtnStyle addOperBtnStyle mainSings" id="remSings">%</button>`;
-    operBtn.innerHTML += `<button class="operBtnStyle addOperBtnStyle mainSings" id="remSings1">√</button>`;
-    operBtn.innerHTML += `<button class="operBtnStyle addOperBtnStyle mainSings" id="remSings2">²</button>`;
-    operBtn.innerHTML += `<button class="operBtnStyle addOperBtnStyle mainSings" id="remSings3">π</button>`;
+function addMenuFunc() {
+    changeableBtnFunc() 
 }
 
-function removeAddSings(){
-    let mainSings = document.getElementById("remSings");
-    mainSings.remove();
-    let mainSings1 = document.getElementById("remSings1");
-    mainSings1.remove();
-    let mainSings2 = document.getElementById("remSings2");
-    mainSings2.remove();
-    let mainSings3 = document.getElementById("remSings3");
-    mainSings3.remove();
-operBtn.innerHTML += `<button class="operBtnStyle mainSings" id="minus">-</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle mainSings" id="plus">+</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle mainSings" id="division">÷</button>`;
-operBtn.innerHTML += `<button class="operBtnStyle mainSings" id="multiplication">×</button>`;
+function changeableBtnFunc() {
+    bottomBtn.classList.toggle('hide');
+    changeableBtn.classList.toggle('hide');
 }
 
-let i = 0;
-function addMenuFuncTime() {
-    if(i < 100){
-    setTimeout(() => {
-        addMenuFunc();
-    }, 300)
-    setTimeout(() => {
-        removeAddSings();
-    }, 3000)
-    i += 1;
-} else {
-    alert('Reload page, please !');
-   i = 0;
-}
-}
-
-addMenu.addEventListener('click', addMenuFuncTime);
- 
-
-
-
-
+addMenu.addEventListener('click', addMenuFunc);
 
 // function displayedValue (){
 //     let displayNum = this.getAttribute('id');
