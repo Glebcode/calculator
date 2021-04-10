@@ -11,7 +11,7 @@ function createBtn() {
         btnWrap.innerHTML += `<button dataBtn="${i + 1}" id="${i + 1}" class="button${i + 1} button"><p class="pNum">${i + 1}</p></button>`
     }
     btnWrap.innerHTML += `<button dataBtn="0" class="button">0</button>`;
-    btnWrap.innerHTML += `<button dataBtn="." class="button">.</button>`;
+    btnWrap.innerHTML += `<button dataBtn="." id="point" class="button">.</button>`;
     btnWrap.innerHTML += `<button dataBtn="=" class="buttonEqual" id="resultBtn">=</button>`;
     topBtn.innerHTML += `<button dataBtn1="CE" class="operBtnStyle ce">CE</button>`;
     topBtn.innerHTML += `<button class="operBtnStyle addmenu" id="addMenu">...</button>`;
@@ -43,32 +43,31 @@ function displayValue() {
     if(writeValidation(displayNum, display.innerText)){
         display.innerText += displayNum;
     }
+    // if(pointFunc(displayNum)){
+    //     display.innerText += displayNum;
+    // }
 }
 
 function writeValidation(displayNum, displayedVal) {
     counterClick++
-
     if (operSymbol(displayNum)){
         let disArr = displayedVal.split('displayNum');
-        console.log(disArr)
+        console.log('disarr', disArr)
     }
-
 
     if (operSymbol(displayNum) && !displayedVal.length){
         return false
     }
-
-
-
     // console.log(disArr)
     if(!displayedVal.length) {return true}
     return true
 }
 
 function operSymbol(displayNum){
-    console.log()
-    return displayNum == '×' || displayNum == '÷' || displayNum == '.';
+
+    return displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+';
 }
+
 let btnValue = document.querySelectorAll('.button');
 //  console.log(btnValue);
 
@@ -83,6 +82,30 @@ let resultBtn = document.getElementById('resultBtn');
 
 resultBtn.addEventListener('click', resultFunc);
 
-function resultFunc() {
-
+function resultFunc(displayNum, displayedVal) {
+    if (operSymbol(displayNum)){
+        let forEqualArray = displayedVal.split('displayNum');
+        console.log('Array   ' + forEqualArray);
+    }
+    return true;
 }
+
+
+
+// let pointBtn = document.getElementById('point');
+
+// pointBtn.addEventListener('click', pointFunc);
+
+// let counterPoint;
+// function pointFunc(displayNum){
+//     counterPoint++;
+//     if(counterPoint > 1){
+//         return false;
+//     }
+//     if(displayNum == '.'){
+//          return true;
+//     }
+   
+//     console.log('point');
+// }
+

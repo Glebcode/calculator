@@ -1,4 +1,7 @@
 @font-face {
     font-family: calcF;
     src: url("calc-font.woff") format("woff");
+    
+    font-family: calcN;
+    src: url("calc-font1.woff") format("woff");
 }
