@@ -6,7 +6,8 @@ let bottomBtn = document.getElementById('bottomBtn');
 let counterClick = 0;
 createBtn();
 
-function createBtn() {
+//створення кнопок.
+function createBtn() { 
     for (let i = 0; i < 9; i++) {
         btnWrap.innerHTML += `<button dataBtn="${i + 1}" id="${i + 1}" class="button${i + 1} button"><p class="pNum">${i + 1}</p></button>`
     }
@@ -30,6 +31,7 @@ function createBtn() {
 
 let addMenu = document.getElementById('addMenu');
 
+//змінна операційних кнопок, через кнопку ("...").
 function changeableBtnFunc() {
     bottomBtn.classList.toggle('hide');
     changeableBtn.classList.toggle('hide');
@@ -37,51 +39,52 @@ function changeableBtnFunc() {
 
 addMenu.addEventListener('click', changeableBtnFunc);
 
+//додавання символів на дисплей, якщо, проходять перевірочну функцію writeValidation.
 function displayValue() {
     let displayNum = this.getAttribute('dataBtn');
 
+//якщо, пройшов (символ) перевірку writeValidation додати його до вже існуючого текста на дисплей.
     if(writeValidation(displayNum, display.innerText)){
         display.innerText += displayNum;
     }
-    // if(pointFunc(displayNum)){
-    //     display.innerText += displayNum;
-    // }
-}
-
-function writeValidation(displayNum, displayedVal) {
-    counterClick++
-    if (operSymbol(displayNum)){
-        let disArr = displayedVal.split('displayNum');
-        console.log('disarr', disArr)
-    }
-
-    if (operSymbol(displayNum) && !displayedVal.length){
-        return false
-    }
-    // console.log(disArr)
-    if(!displayedVal.length) {return true}
-    return true
-}
-
-function operSymbol(displayNum){
-
-    return displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+';
+   
 }
 
 let btnValue = document.querySelectorAll('.button');
-//  console.log(btnValue);
 
+//метод масива, що при кліку на будь-який .button запускає displayValue.
 btnValue.forEach( function (item) {
     return item.addEventListener('click', displayValue)
 });
 
+//функція перевірки правильності введення цифр і символів в розрахункове поле.
+function writeValidation(displayNum, displayedVal) {
+    counterClick++
+    // якщо, функція operSymbol вертає параметр displayNum то розбити строку displayedVal через заданий дільник.
+    if (operSymbol(displayNum)){
+        let disArr = displayedVal.split('displayNum');
+        console.log('disarr', disArr)
+    }
+    // якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum.
+    if (operSymbol(displayNum) && !displayedVal.length){
+        return false
+    }
+    // для того, щоб інші кнопки працювали при натисканні. 
+    if(!displayedVal.length) {return true}
+    return true
+}
 
+//функція, що виводить на екран кнопки операційні в разі натискання (лише на дані кнопки).
+function operSymbol(displayNum){
 
+    return displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π';
+}
 
 let resultBtn = document.getElementById('resultBtn');
 
 resultBtn.addEventListener('click', resultFunc);
 
+//функція, що проводить розрахунки введених даних.
 function resultFunc(displayNum, displayedVal) {
     if (operSymbol(displayNum)){
         let forEqualArray = displayedVal.split('displayNum');
