@@ -91,5 +91,7 @@ pointer-events: none;
 }
 button p{
     background: transparent !important;
-    font-family: ;
+}
+.show{
+    display: block;
 }
