@@ -3,11 +3,12 @@ let btnWrap = document.getElementById('btnWrapper');
 let changeableBtn = document.getElementById('changeableBtn');
 let topBtn = document.getElementById('topBtn');
 let bottomBtn = document.getElementById('bottomBtn');
+let backSpaceBtn = document.getElementById('backSpaceBtn');
 let counterClick = 0;
 createBtn();
 
 //створення кнопок.
-function createBtn() { 
+function createBtn() {
     for (let i = 0; i < 9; i++) {
         btnWrap.innerHTML += `<button dataBtn="${i + 1}" id="${i + 1}" class="button${i + 1} button"><p class="pNum">${i + 1}</p></button>`
     }
@@ -46,8 +47,8 @@ function displayValue() {
 //якщо, пройшов (символ) перевірку writeValidation додати його до вже існуючого текста на дисплей.
     if(writeValidation(displayNum, display.innerText)){
         display.innerText += displayNum;
+        backSpaceBtn.className = "show";
     }
-   
 }
 
 let btnValue = document.querySelectorAll('.button');
@@ -67,16 +68,17 @@ function writeValidation(displayNum, displayedVal) {
     // }
     if (operSymbol(displayNum)){
         let disArr2 = displayedVal.split('');
-        console.log('disarr2', disArr2)
-        displayNum != disArr2[disArr2.length-1];
-        console.log(disArr2.length)
-        console.log('displayedVal', displayedVal)
+        if(operSymbol(disArr2[disArr2.length-1])){
+            return false
+        }
+        console.log(disArr2.length);
+        console.log('displayedVal', displayedVal);
     }
     // якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum.
     if (operSymbol(displayNum) && !displayedVal.length){
         return false
     }
-    // для того, щоб інші кнопки працювали при натисканні. 
+    // для того, щоб інші кнопки працювали при натисканні.
     if(!displayedVal.length) {return true}
     return true
 }
@@ -115,7 +117,7 @@ function operSymbol(displayNum){
 //     if(displayNum == '.'){
 //          return true;
 //     }
-   
+
 //     console.log('point');
 // }
 
