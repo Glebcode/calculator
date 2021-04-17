@@ -31,7 +31,7 @@ function createBtn() {
 
 let addMenu = document.getElementById('addMenu');
 
-//змінна операційних кнопок, через кнопку ("...").
+//зміна операційних кнопок, через кнопку ("...").
 function changeableBtnFunc() {
     bottomBtn.classList.toggle('hide');
     changeableBtn.classList.toggle('hide');
@@ -61,9 +61,16 @@ btnValue.forEach( function (item) {
 function writeValidation(displayNum, displayedVal) {
     counterClick++
     // якщо, функція operSymbol вертає параметр displayNum то розбити строку displayedVal через заданий дільник.
+    // if (operSymbol(displayNum)){
+    //     let disArr = displayedVal.split('displayNum');
+    //     console.log('disarr', disArr)
+    // }
     if (operSymbol(displayNum)){
-        let disArr = displayedVal.split('displayNum');
-        console.log('disarr', disArr)
+        let disArr2 = displayedVal.split('');
+        console.log('disarr2', disArr2)
+        displayNum != disArr2[disArr2.length-1];
+        console.log(disArr2.length)
+        console.log('displayedVal', displayedVal)
     }
     // якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum.
     if (operSymbol(displayNum) && !displayedVal.length){
@@ -80,18 +87,18 @@ function operSymbol(displayNum){
     return displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π';
 }
 
-let resultBtn = document.getElementById('resultBtn');
+// let resultBtn = document.getElementById('resultBtn');
 
-resultBtn.addEventListener('click', resultFunc);
+// resultBtn.addEventListener('click', resultFunc);
 
-//функція, що проводить розрахунки введених даних.
-function resultFunc(displayNum, displayedVal) {
-    if (operSymbol(displayNum)){
-        let forEqualArray = displayedVal.split('displayNum');
-        console.log('Array   ' + forEqualArray);
-    }
-    return true;
-}
+// //функція, що проводить розрахунки введених даних.
+// function resultFunc(displayNum, displayedVal) {
+//     if (operSymbol(displayNum)){
+//         let forEqualArray = displayedVal.split('displayNum');
+//         console.log('Array   ' + forEqualArray);
+//     }
+//     return true;
+// }
 
 
 
