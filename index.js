@@ -15,7 +15,7 @@ function createBtn() {
     btnWrap.innerHTML += `<button dataBtn="0" class="button">0</button>`;
     btnWrap.innerHTML += `<button dataBtn="." id="point" class="button">.</button>`;
     btnWrap.innerHTML += `<button dataBtn="=" class="buttonEqual" id="resultBtn">=</button>`;
-    topBtn.innerHTML += `<button dataBtn1="CE" class="operBtnStyle ce">CE</button>`;
+    topBtn.innerHTML += `<button dataBtn1="CE" class="operBtnStyle ce" id="Ce">CE</button>`;
     topBtn.innerHTML += `<button class="operBtnStyle addmenu" id="addMenu">...</button>`;
     topBtn.innerHTML += `<button dataBtn="(" class="operBtnStyle additionalSings button">(</button>`;
     topBtn.innerHTML += `<button dataBtn=")" class="operBtnStyle additionalSings button">)</button>`;
@@ -48,7 +48,7 @@ function displayValue() {
     if(writeValidation(displayNum, display.innerText)){
         display.innerText += displayNum;
         backSpaceBtn.className = "show";
-    }
+    }  
 }
 
 let btnValue = document.querySelectorAll('.button');
@@ -89,6 +89,23 @@ function operSymbol(displayNum){
     return displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π';
 }
 
+
+let deleteCeBtn = document.getElementById('Ce');
+
+function deleteCeFunc() {
+    display.innerText = null;
+}
+
+deleteCeBtn.addEventListener('click', deleteCeFunc)
+
+function backSpaceBtnFunc () {
+    let a = display.innerText;
+    let backArr = a.split(''); 
+    backArr.splice(backArr.length - 1, 1);
+    display.innerText = backArr.join('');
+}
+
+backSpaceBtn.addEventListener('click', backSpaceBtnFunc)
 // let resultBtn = document.getElementById('resultBtn');
 
 // resultBtn.addEventListener('click', resultFunc);

@@ -94,4 +94,9 @@ button p{
 }
 .show{
     display: block;
+    position: absolute;
+    height: 30px;
+    width: 53px;
+    margin: 130px 0 0 490px;
 }
+ 
