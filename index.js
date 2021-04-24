@@ -43,18 +43,18 @@ addMenu.addEventListener('click', changeableBtnFunc);
 //додавання символів на дисплей, якщо, проходять перевірочну функцію writeValidation.
 function displayValue() {
     let displayNum = this.getAttribute('dataBtn');
+    backSpaceBtn.className = "show";
 
-//якщо, пройшов (символ) перевірку writeValidation додати його до вже існуючого текста на дисплей.
-    if(writeValidation(displayNum, display.innerText)){
+    //якщо, пройшов (символ) перевірку writeValidation додати його до вже існуючого текста на дисплей.
+    if (writeValidation(displayNum, display.innerText)) {
         display.innerText += displayNum;
-        backSpaceBtn.className = "show";
-    }  
+    }
 }
 
 let btnValue = document.querySelectorAll('.button');
 
 //метод масива, що при кліку на будь-який .button запускає displayValue.
-btnValue.forEach( function (item) {
+btnValue.forEach(function (item) {
     return item.addEventListener('click', displayValue)
 });
 
@@ -66,27 +66,29 @@ function writeValidation(displayNum, displayedVal) {
     //     let disArr = displayedVal.split('displayNum');
     //     console.log('disarr', disArr)
     // }
-    if (operSymbol(displayNum)){
-        let disArr2 = displayedVal.split('');
-        if(operSymbol(disArr2[disArr2.length-1])){
-            return false
-        }
-        console.log(disArr2.length);
-        console.log('displayedVal', displayedVal);
-    }
-    // якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum.
-    if (operSymbol(displayNum) && !displayedVal.length){
+
+if (operSymbol(displayNum)) {
+    let disArr2 = displayedVal.split('');
+    if (operSymbol(disArr2[disArr2.length - 1])) {
         return false
     }
-    // для того, щоб інші кнопки працювали при натисканні.
-    if(!displayedVal.length) {return true}
+    console.log(disArr2.length);
+    console.log('displayedVal', displayedVal);
+}
+// якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum.
+if (operSymbol(displayNum) && !displayedVal.length) {
+    return false
+}
+// для того, щоб інші кнопки працювали при натисканні.
+if (!displayedVal.length) {
     return true
+}
+return true
 }
 
 //функція, що виводить на екран кнопки операційні в разі натискання (лише на дані кнопки).
-function operSymbol(displayNum){
-
-    return displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π';
+function operSymbol(displayNum) {
+    return displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π' || displayNum == '.';
 }
 
 
@@ -94,18 +96,35 @@ let deleteCeBtn = document.getElementById('Ce');
 
 function deleteCeFunc() {
     display.innerText = null;
+    backSpaceBtn.className = "hide";
 }
 
 deleteCeBtn.addEventListener('click', deleteCeFunc)
 
-function backSpaceBtnFunc () {
+function backSpaceBtnFunc() {
     let a = display.innerText;
-    let backArr = a.split(''); 
+    let backArr = a.split('');
     backArr.splice(backArr.length - 1, 1);
     display.innerText = backArr.join('');
+    if (display.innerText == "") {
+        backSpaceBtn.className = "hide";
+    }
 }
 
 backSpaceBtn.addEventListener('click', backSpaceBtnFunc)
+
+function brackets () {
+let disArr2 = displayedVal.split('');
+    if (displayNum == ')') {
+        // console.log('displayNum', displayNum)
+            if (disArr2[i] == '(') {
+            for (i = 0; i < disArr2.length; i++) {
+                return true;
+            }
+        }
+    }
+}
+
 // let resultBtn = document.getElementById('resultBtn');
 
 // resultBtn.addEventListener('click', resultFunc);
@@ -137,4 +156,3 @@ backSpaceBtn.addEventListener('click', backSpaceBtnFunc)
 
 //     console.log('point');
 // }
-
