@@ -18,6 +18,8 @@ margin: auto;
     height: 155px;
     border-radius: 20px;
     margin: -2% 0% 0% 2%;
+    position: relative;
+    /* overflow:hidden; */
 }
 .buttonsWrapper{
     display: flex;
@@ -66,8 +68,6 @@ margin: auto;
     margin: 1% 1% 1% 1%;
     font-size: 20px;
 }
-.addOperBtnStyle{
-}
 .mainSings{
     background-color: cadetblue;
 }
@@ -97,6 +97,23 @@ button p{
     position: absolute;
     height: 30px;
     width: 53px;
-    margin: 130px 0 0 490px;
+    margin: 115px 0 0 318px;
+}
+img:hover {
+    transition: .3s;
+    filter: opacity(70%);
+    height: 29px;
+    width: 51px;
+}
+img:active {
+    transition: .3s;
+    filter: opacity(100%);
+    color: red;
+    height: 32px;
+    width: 56px;
+}
+#input {
+    margin: 16px 0 0 8px;
+    font-size: 24px;
 }
  
