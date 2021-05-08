@@ -4,6 +4,7 @@ let changeableBtn = document.getElementById('changeableBtn');
 let topBtn = document.getElementById('topBtn');
 let bottomBtn = document.getElementById('bottomBtn');
 let backSpaceBtn = document.getElementById('backSpaceBtn');
+let bracketsBut = document.getElementsByClassName('brackets');
 let counterClick = 0;
 createBtn();
 
@@ -17,8 +18,8 @@ function createBtn() {
     btnWrap.innerHTML += `<button dataBtn="=" class="buttonEqual" id="resultBtn">=</button>`;
     topBtn.innerHTML += `<button dataBtn1="CE" class="operBtnStyle ce" id="Ce">CE</button>`;
     topBtn.innerHTML += `<button class="operBtnStyle addmenu" id="addMenu">...</button>`;
-    topBtn.innerHTML += `<button dataBtn="(" class="operBtnStyle additionalSings button">(</button>`;
-    topBtn.innerHTML += `<button dataBtn=")" class="operBtnStyle additionalSings button">)</button>`;
+    topBtn.innerHTML += `<button dataBtn="(" class="brackets operBtnStyle additionalSings button">(</button>`;
+    topBtn.innerHTML += `<button dataBtn=")" class="brackets operBtnStyle additionalSings button">)</button>`;
     bottomBtn.innerHTML += `<button dataBtn="-" class="operBtnStyle mainSings button" id="minus">-</button>`;
     bottomBtn.innerHTML += `<button dataBtn="+" class="operBtnStyle mainSings button" id="plus">+</button>`;
     bottomBtn.innerHTML += `<button dataBtn="÷" class="operBtnStyle mainSings button" id="division">÷</button>`;
@@ -44,7 +45,6 @@ addMenu.addEventListener('click', changeableBtnFunc);
 function displayValue() {
     let displayNum = this.getAttribute('dataBtn');
     backSpaceBtn.className = "show";
-
     //якщо, пройшов (символ) перевірку writeValidation додати його до вже існуючого текста на дисплей.
     if (writeValidation(displayNum, display.innerText)) {
         display.innerText += displayNum;
@@ -66,7 +66,9 @@ function writeValidation(displayNum, displayedVal) {
     //     let disArr = displayedVal.split('displayNum');
     //     console.log('disarr', disArr)
     // }
-
+if(displayNum === ')'){
+return bracketsCheck(displayedVal);
+}
 if (operSymbol(displayNum)) {
     let disArr2 = displayedVal.split('');
     if (operSymbol(disArr2[disArr2.length - 1])) {
@@ -94,6 +96,7 @@ function operSymbol(displayNum) {
 
 let deleteCeBtn = document.getElementById('Ce');
 
+// функція, що видаляє повністю весь вміст дисплея.
 function deleteCeFunc() {
     display.innerText = null;
     backSpaceBtn.className = "hide";
@@ -101,6 +104,7 @@ function deleteCeFunc() {
 
 deleteCeBtn.addEventListener('click', deleteCeFunc)
 
+// функція, що видаляє посимвольно.
 function backSpaceBtnFunc() {
     let a = display.innerText;
     let backArr = a.split('');
@@ -112,47 +116,57 @@ function backSpaceBtnFunc() {
 }
 
 backSpaceBtn.addEventListener('click', backSpaceBtnFunc)
+ 
 
-function brackets () {
-let disArr2 = displayedVal.split('');
-    if (displayNum == ')') {
-        // console.log('displayNum', displayNum)
-            if (disArr2[i] == '(') {
-            for (i = 0; i < disArr2.length; i++) {
-                return true;
-            }
-        }
+let resultBtn = document.getElementById('resultBtn');
+
+resultBtn.addEventListener('click', equalFunction);
+ 
+//функція equal, що викликає результативну функцію.
+function equalFunction (){
+    let arrDis = display.innerText;
+    let disArr = arrDis.split('+');
+    console.log(disArr);
+
+    // for (i=0;i<=disArr.length;i++){
+    //     let Elem = disArr[i];        
+    //     console.log(firstElem);
+    // }
+    
+    // let disArr = display.innerText.split('-');
+    // let disArr = display.innerText.split('÷');
+    // let disArr = display.innerText.split('×');
+
+    console.log(disArr)
+
+    resultFunc(display.innerText)
+}
+ //функція, що проводить розрахунки введених даних.
+function resultFunc(displayInnerText) {
+   
+}
+
+//функція перевірки круглих дужок.
+function bracketsCheck(displayedVal){
+let disArrBr = displayedVal.split('');
+let counterLeft = 0;
+let counterRight = 0;
+    disArrBr.forEach((item) => {
+        if(item === '(') counterLeft++;
+        if(item === ')') counterRight++;
+    })
+    if(disArrBr[disArrBr.length-1] === '('){
+        return false;
+    }
+    if(counterLeft > counterRight){
+        return true;
+    } else {
+        return false;
     }
 }
 
-// let resultBtn = document.getElementById('resultBtn');
-
-// resultBtn.addEventListener('click', resultFunc);
-
-// //функція, що проводить розрахунки введених даних.
-// function resultFunc(displayNum, displayedVal) {
-//     if (operSymbol(displayNum)){
-//         let forEqualArray = displayedVal.split('displayNum');
-//         console.log('Array   ' + forEqualArray);
-//     }
-//     return true;
-// }
 
 
 
-// let pointBtn = document.getElementById('point');
 
-// pointBtn.addEventListener('click', pointFunc);
 
-// let counterPoint;
-// function pointFunc(displayNum){
-//     counterPoint++;
-//     if(counterPoint > 1){
-//         return false;
-//     }
-//     if(displayNum == '.'){
-//          return true;
-//     }
-
-//     console.log('point');
-// }
