@@ -66,26 +66,26 @@ function writeValidation(displayNum, displayedVal) {
     //     let disArr = displayedVal.split('displayNum');
     //     console.log('disarr', disArr)
     // }
-if(displayNum === ')'){
-return bracketsCheck(displayedVal);
-}
-if (operSymbol(displayNum)) {
-    let disArr2 = displayedVal.split('');
-    if (operSymbol(disArr2[disArr2.length - 1])) {
+    if (displayNum === ')') {
+        return bracketsCheck(displayedVal);
+    }
+    if (operSymbol(displayNum)) {
+        let disArr2 = displayedVal.split('');
+        if (operSymbol(disArr2[disArr2.length - 1])) {
+            return false
+        }
+        console.log(disArr2.length);
+        console.log('displayedVal', displayedVal);
+    }
+    // якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum.
+    if (operSymbol(displayNum) && !displayedVal.length) {
         return false
     }
-    console.log(disArr2.length);
-    console.log('displayedVal', displayedVal);
-}
-// якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum.
-if (operSymbol(displayNum) && !displayedVal.length) {
-    return false
-}
-// для того, щоб інші кнопки працювали при натисканні.
-if (!displayedVal.length) {
+    // для того, щоб інші кнопки працювали при натисканні.
+    if (!displayedVal.length) {
+        return true
+    }
     return true
-}
-return true
 }
 
 //функція, що виводить на екран кнопки операційні в разі натискання (лише на дані кнопки).
@@ -116,57 +116,74 @@ function backSpaceBtnFunc() {
 }
 
 backSpaceBtn.addEventListener('click', backSpaceBtnFunc)
- 
+
 
 let resultBtn = document.getElementById('resultBtn');
 
 resultBtn.addEventListener('click', equalFunction);
- 
+
 //функція equal, що викликає результативну функцію.
-function equalFunction (){
+function equalFunction() {
     let arrDis = display.innerText;
-    let disArr = arrDis.split('+');
-    console.log(disArr);
+    let disArr = arrDis.split('');
+    console.log("equalFunc", disArr);    
+    let operSymb = [];
+    operSymb = disArr.filter(function(item, index, array){
+return item == "+" || item == "-" || item == "÷" || item == "×";
+console.log(operSymb);    
+});
+console.log(operSymb);    
+
+
+    // let arrDis = display.innerText;
+    // let disArr = arrDis.split('');
+    // console.log(disArr);
+    // let res = 0;
+    // let count = 0;
+    // for (let i = 0; i < disArr.length; i++) {
+    //     if (disArr[i] === '+') {
+    //         if(count > 0){
+    //             res += parseInt(disArr[i + 1]);
+    //         } else{
+    //             res += parseInt(disArr[i - 1]) + parseInt(disArr[i + 1]);  
+    //         }
+    //         count++;
+    //         console.log(res)
+    //     }
+    //     console.log('for', res)
+    }
+
 
     // for (i=0;i<=disArr.length;i++){
     //     let Elem = disArr[i];        
     //     console.log(firstElem);
     // }
-    
+
     // let disArr = display.innerText.split('-');
     // let disArr = display.innerText.split('÷');
     // let disArr = display.innerText.split('×');
-
-    console.log(disArr)
-
     resultFunc(display.innerText)
-}
- //функція, що проводить розрахунки введених даних.
+
+//функція, що проводить розрахунки введених даних.
 function resultFunc(displayInnerText) {
-   
+
 }
 
 //функція перевірки круглих дужок.
-function bracketsCheck(displayedVal){
-let disArrBr = displayedVal.split('');
-let counterLeft = 0;
-let counterRight = 0;
+function bracketsCheck(displayedVal) {
+    let disArrBr = displayedVal.split('');
+    let counterLeft = 0;
+    let counterRight = 0;
     disArrBr.forEach((item) => {
-        if(item === '(') counterLeft++;
-        if(item === ')') counterRight++;
+        if (item === '(') counterLeft++;
+        if (item === ')') counterRight++;
     })
-    if(disArrBr[disArrBr.length-1] === '('){
+    if (disArrBr[disArrBr.length - 1] === '(') {
         return false;
     }
-    if(counterLeft > counterRight){
+    if (counterLeft > counterRight) {
         return true;
     } else {
         return false;
     }
 }
-
-
-
-
-
-
