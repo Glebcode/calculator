@@ -32,6 +32,7 @@ function createBtn() {
 }
 
 let addMenu = document.getElementById('addMenu');
+let operSymbArr = [];
 
 //зміна операційних кнопок, через кнопку ("...").
 function changeableBtnFunc() {
@@ -62,10 +63,9 @@ btnValue.forEach(function (item) {
 function writeValidation(displayNum, displayedVal) {
     counterClick++
     // якщо, функція operSymbol вертає параметр displayNum то розбити строку displayedVal через заданий дільник.
-    // if (operSymbol(displayNum)){
-    //     let disArr = displayedVal.split('displayNum');
-    //     console.log('disarr', disArr)
-    // }
+    if (operSymbol(displayNum)) {
+        operSymbArr.push(displayNum)
+    }
     if (displayNum === ')') {
         return bracketsCheck(displayedVal);
     }
@@ -90,7 +90,7 @@ function writeValidation(displayNum, displayedVal) {
 
 //функція, що виводить на екран кнопки операційні в разі натискання (лише на дані кнопки).
 function operSymbol(displayNum) {
-    return displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π' || displayNum == '.';
+    return displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π';
 }
 
 
@@ -123,50 +123,57 @@ let resultBtn = document.getElementById('resultBtn');
 resultBtn.addEventListener('click', equalFunction);
 
 //функція equal, що викликає результативну функцію.
+
 function equalFunction() {
     let arrDis = display.innerText;
-    let disArr = arrDis.split('');
-    console.log("equalFunc", disArr);    
-    let operSymb = [];
-    operSymb = disArr.filter(function(item, index, array){
-return item == "+" || item == "-" || item == "÷" || item == "×";
-console.log(operSymb);    
-});
-console.log(operSymb);    
+    let disArr = arrDis.split(/\W/);
+    console.log("equalFunc", disArr);
+    console.log(operSymbArr);
+    // operSymb = disArr.filter(function(item, index, array){
+    // return item == "+" || item == "-" || item == "÷" || item == "×";
+    // console.log(operSymb);    
+    // });
+    // console.log(operSymb);    
 
-
-    // let arrDis = display.innerText;
-    // let disArr = arrDis.split('');
-    // console.log(disArr);
-    // let res = 0;
-    // let count = 0;
-    // for (let i = 0; i < disArr.length; i++) {
-    //     if (disArr[i] === '+') {
-    //         if(count > 0){
-    //             res += parseInt(disArr[i + 1]);
-    //         } else{
-    //             res += parseInt(disArr[i - 1]) + parseInt(disArr[i + 1]);  
-    //         }
-    //         count++;
-    //         console.log(res)
-    //     }
-    //     console.log('for', res)
-    }
-
-
-    // for (i=0;i<=disArr.length;i++){
-    //     let Elem = disArr[i];        
-    //     console.log(firstElem);
-    // }
-
-    // let disArr = display.innerText.split('-');
-    // let disArr = display.innerText.split('÷');
-    // let disArr = display.innerText.split('×');
-    resultFunc(display.innerText)
+    resultFunc(disArr)
+}
 
 //функція, що проводить розрахунки введених даних.
-function resultFunc(displayInnerText) {
-
+function resultFunc(disArr) {
+    let resArr = disArr;
+    let resProp = 0;
+    for (let i = 0; operSymbArr.length > i; i++) {
+        if (operSymbArr[i] === '×') {
+            resProp = +resArr[i] * +resArr[i+1];
+            resArr.splice(i, 2, resProp);
+            operSymbArr.splice(i, 1);
+            resultFunc(resArr);
+        }
+        if (operSymbArr[i] === '÷') {
+            resProp = +resArr[i] / +resArr[i+1];
+            resArr.splice(i, 2, resProp);
+            operSymbArr.splice(i, 1);
+            resultFunc(resArr);
+        }
+        if(operSymbArr[i] === '+'){
+            resProp = +resArr[i] + +resArr[i+1];
+            resArr.splice(i, 2, resProp);
+            operSymbArr.splice(i, 1);
+            console.log(resArr);
+            resultFunc(resArr);
+        }
+        if(operSymbArr[i] === '-'){
+            resProp = +resArr[i] - +resArr[i+1];
+            resArr.splice(i, 2, resProp);
+            operSymbArr.splice(i, 1);
+            console.log(resArr);
+            resultFunc(resArr);
+        }
+    }
+    // if(operSymbArr.length >= 1){
+    //     resultFunc(resArr);
+    // }
+console.log(resArr)
 }
 
 //функція перевірки круглих дужок.
