@@ -135,41 +135,63 @@ function equalFunction() {
     // });
     // console.log(operSymb);    
 
-    resultFunc(disArr)
+    resultFunc(disArr);
 }
 
 //функція, що проводить розрахунки введених даних.
 function resultFunc(disArr) {
     let resArr = disArr;
     let resProp = 0;
-    for (let i = 0; operSymbArr.length > i; i++) {
-        if (operSymbArr[i] === '×') {
-            resProp = +resArr[i] * +resArr[i+1];
-            resArr.splice(i, 2, resProp);
-            operSymbArr.splice(i, 1);
+    let multiple = operSymbArr.indexOf('×');
+    let divide = operSymbArr.indexOf('÷');
+    let plus = operSymbArr.indexOf('+');
+    let minus = operSymbArr.indexOf('-');
+    
+    // console.log(operSymbArr.indexOf('×')) 
+
+    if(multiple >= 0){
+        resProp = +resArr[multiple] * +resArr[multiple+1];
+            resArr.splice(multiple, 2, resProp);
+            operSymbArr.splice(multiple, 1);
             resultFunc(resArr);
-        }
-        if (operSymbArr[i] === '÷') {
-            resProp = +resArr[i] / +resArr[i+1];
-            resArr.splice(i, 2, resProp);
-            operSymbArr.splice(i, 1);
-            resultFunc(resArr);
-        }
-        if(operSymbArr[i] === '+'){
-            resProp = +resArr[i] + +resArr[i+1];
-            resArr.splice(i, 2, resProp);
-            operSymbArr.splice(i, 1);
-            console.log(resArr);
-            resultFunc(resArr);
-        }
-        if(operSymbArr[i] === '-'){
-            resProp = +resArr[i] - +resArr[i+1];
-            resArr.splice(i, 2, resProp);
-            operSymbArr.splice(i, 1);
-            console.log(resArr);
-            resultFunc(resArr);
-        }
     }
+
+    if(plus >= 0){
+        resProp = +resArr[plus] + +resArr[plus+1];
+            resArr.splice(plus, 2, resProp);
+            operSymbArr.splice(plus, 1);
+            resultFunc(resArr);
+    }
+
+    // for (let i = 0; operSymbArr.length > i; i++) {
+    //     if (operSymbArr[i] === '×') {
+    //         resProp = +resArr[i] * +resArr[i+1];
+    //         resArr.splice(i, 2, resProp);
+    //         operSymbArr.splice(i, 1);
+    //         resultFunc(resArr);
+    //     }
+    //     if (operSymbArr[i] === '÷') {
+    //         resProp = +resArr[i] / +resArr[i+1];
+    //         resArr.splice(i, 2, resProp);
+    //         operSymbArr.splice(i, 1);
+    //         resultFunc(resArr);
+    //     }
+    //     if(operSymbArr[i] === '+'){
+    //         resProp = +resArr[i] + +resArr[i+1];
+    //         resArr.splice(i, 2, resProp);
+    //         operSymbArr.splice(i, 1);
+    //         console.log(resArr);
+    //         resultFunc(resArr);
+    //     }
+    //     if(operSymbArr[i] === '-'){
+    //         resProp = +resArr[i] - +resArr[i+1];
+    //         resArr.splice(i, 2, resProp);
+    //         operSymbArr.splice(i, 1);
+    //         console.log(resArr);
+    //         resultFunc(resArr);
+    //     }
+    // }
+
     // if(operSymbArr.length >= 1){
     //     resultFunc(resArr);
     // }
