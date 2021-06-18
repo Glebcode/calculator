@@ -33,6 +33,8 @@ function createBtn() {
 
 let addMenu = document.getElementById('addMenu');
 let operSymbArr = [];
+let operSymbArr2 = [];
+
 
 //зміна операційних кнопок, через кнопку ("...").
 function changeableBtnFunc() {
@@ -71,14 +73,19 @@ function writeValidation(displayNum, displayedVal) {
     }
     if (operSymbol(displayNum)) {
         let disArr2 = displayedVal.split('');
-        if (operSymbol(disArr2[disArr2.length - 1])) {
+        if (operSymbol(displayNum) && displayNum == '√') {
+            return true
+        }else if (operSymbol(disArr2[disArr2.length - 1])) {
             return false
         }
-        console.log(disArr2.length);
-        console.log('displayedVal', displayedVal);
+        // console.log(disArr2.length);
+        // console.log('displayedVal', displayedVal);
     }
-    // якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum.
-    if (operSymbol(displayNum) && !displayedVal.length) {
+
+    // якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum, крім '√'.
+    if (operSymbol(displayNum) && displayNum == '√') {
+        return true
+    } else if (operSymbol(displayNum) && !displayedVal.length) {
         return false
     }
     // для того, щоб інші кнопки працювали при натисканні.
@@ -126,76 +133,97 @@ resultBtn.addEventListener('click', equalFunction);
 
 function equalFunction() {
     let arrDis = display.innerText;
-    let disArr = arrDis.split(/\W/);
-    console.log("equalFunc", disArr);
+    let disArr = arrDis.split(/[^\d.]/g);
     console.log(operSymbArr);
     // operSymb = disArr.filter(function(item, index, array){
     // return item == "+" || item == "-" || item == "÷" || item == "×";
     // console.log(operSymb);    
     // });
     // console.log(operSymb);    
-
-    resultFunc(disArr);
+    resultFunc(disArr, operSymbArr);
 }
 
 //функція, що проводить розрахунки введених даних.
-function resultFunc(disArr) {
+function resultFunc(disArr, operSymbArr) {
     let resArr = disArr;
+    operSymbArr2 = operSymbArr;
     let resProp = 0;
-    let multiple = operSymbArr.indexOf('×');
-    let divide = operSymbArr.indexOf('÷');
-    let plus = operSymbArr.indexOf('+');
-    let minus = operSymbArr.indexOf('-');
-    
-    // console.log(operSymbArr.indexOf('×')) 
+    let multiple = operSymbArr2.indexOf('×');
+    let divide = operSymbArr2.indexOf('÷');
+    let plus = operSymbArr2.indexOf('+');
+    let minus = operSymbArr2.indexOf('-');
+    let sqRoot = operSymbArr2.indexOf('√');
 
-    if(multiple >= 0){
-        resProp = +resArr[multiple] * +resArr[multiple+1];
-            resArr.splice(multiple, 2, resProp);
-            operSymbArr.splice(multiple, 1);
-            resultFunc(resArr);
+    console.log("equalFunc", resArr);
+    console.log(operSymbArr2);
+
+    // console.log(operSymbArr2.indexOf('×')) 
+    if (operSymbArr2.length == 0) {
+        display.innerText = '';
+        display.innerText = disArr[0];
+        return;
+    }
+    if (sqRoot >= 0) {
+        resProp = Math.sqrt(+resArr[sqRoot+1]);
+        resArr.splice(sqRoot, 2, resProp);
+        operSymbArr2.splice(sqRoot, 1);
+        resultFunc(resArr, operSymbArr2);
+    }
+    if (multiple >= 0) {
+        resProp = +resArr[multiple] * +resArr[multiple + 1];
+        resArr.splice(multiple, 2, resProp);
+        operSymbArr2.splice(multiple, 1);
+        resultFunc(resArr, operSymbArr2);
     }
 
-    if(plus >= 0){
-        resProp = +resArr[plus] + +resArr[plus+1];
-            resArr.splice(plus, 2, resProp);
-            operSymbArr.splice(plus, 1);
-            resultFunc(resArr);
+    if (divide >= 0) {
+        resProp = +resArr[divide] / +resArr[divide + 1];
+        resArr.splice(divide, 2, resProp);
+        operSymbArr2.splice(divide, 1);
+        resultFunc(resArr, operSymbArr2);
     }
 
+    if (plus >= 0) {
+        resProp = +resArr[plus] + +resArr[plus + 1];
+        resArr.splice(plus, 2, resProp);
+        operSymbArr2.splice(plus, 1);
+        resultFunc(resArr, operSymbArr2);
+    }
+
+    if (minus >= 0) {
+        resProp = +resArr[minus] - +resArr[minus + 1];
+        resArr.splice(minus, 2, resProp);
+        operSymbArr2.splice(minus, 1);
+        resultFunc(resArr, operSymbArr2);
+    }
     // for (let i = 0; operSymbArr.length > i; i++) {
     //     if (operSymbArr[i] === '×') {
     //         resProp = +resArr[i] * +resArr[i+1];
     //         resArr.splice(i, 2, resProp);
     //         operSymbArr.splice(i, 1);
-    //         resultFunc(resArr);
+    //         resultFunc(resArr, operSymbArr2);
     //     }
     //     if (operSymbArr[i] === '÷') {
     //         resProp = +resArr[i] / +resArr[i+1];
     //         resArr.splice(i, 2, resProp);
     //         operSymbArr.splice(i, 1);
-    //         resultFunc(resArr);
+    //         resultFunc(resArr, operSymbArr2);
     //     }
     //     if(operSymbArr[i] === '+'){
     //         resProp = +resArr[i] + +resArr[i+1];
     //         resArr.splice(i, 2, resProp);
     //         operSymbArr.splice(i, 1);
     //         console.log(resArr);
-    //         resultFunc(resArr);
+    //         resultFunc(resArr, operSymbArr2);
     //     }
     //     if(operSymbArr[i] === '-'){
     //         resProp = +resArr[i] - +resArr[i+1];
     //         resArr.splice(i, 2, resProp);
     //         operSymbArr.splice(i, 1);
     //         console.log(resArr);
-    //         resultFunc(resArr);
+    //         resultFunc(resArr, operSymbArr2);
     //     }
     // }
-
-    // if(operSymbArr.length >= 1){
-    //     resultFunc(resArr);
-    // }
-console.log(resArr)
 }
 
 //функція перевірки круглих дужок.
