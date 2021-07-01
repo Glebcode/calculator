@@ -73,11 +73,14 @@ function writeValidation(displayNum, displayedVal) {
     }
     if (operSymbol(displayNum)) {
         let disArr2 = displayedVal.split('');
-        if (operSymbol(displayNum) && displayNum == '√') {
+        if (operSymbol((displayNum) && displayNum == '√')) {
             return true
-        }else if (operSymbol(disArr2[disArr2.length - 1])) {
+        }else if (operSymbol(disArr2[disArr2.length - 1] && displayNum == '√')) {
             return false
         }
+    //     }else if (operSymbol(disArr2[disArr2.length - 1])) {
+    //     return false
+    // }
         // console.log(disArr2.length);
         // console.log('displayedVal', displayedVal);
     }
@@ -133,7 +136,10 @@ resultBtn.addEventListener('click', equalFunction);
 
 function equalFunction() {
     let arrDis = display.innerText;
+    console.log(" 1 ", arrDis);
     let disArr = arrDis.split(/[^\d.]/g);
+    console.log(" 2 ", disArr);
+
     console.log(operSymbArr);
     // operSymb = disArr.filter(function(item, index, array){
     // return item == "+" || item == "-" || item == "÷" || item == "×";
@@ -153,44 +159,67 @@ function resultFunc(disArr, operSymbArr) {
     let plus = operSymbArr2.indexOf('+');
     let minus = operSymbArr2.indexOf('-');
     let sqRoot = operSymbArr2.indexOf('√');
+    let percent = operSymbArr2.indexOf('%');
+    let numberPi = operSymbArr2.indexOf('π');
+    let square = operSymbArr2.indexOf('²');
 
     console.log("equalFunc", resArr);
     console.log(operSymbArr2);
 
     // console.log(operSymbArr2.indexOf('×')) 
     if (operSymbArr2.length == 0) {
-        display.innerText = '';
+        let clDisplay = display.innerText;
+        clDisplay = '';
         display.innerText = disArr[0];
         return;
     }
-    if (sqRoot >= 0) {
-        resProp = Math.sqrt(+resArr[sqRoot+1]);
+    if (numberPi >= 0 && operSymbArr2.length !== 0) {
+        resProp = +resArr[numberPi] * +3.1415;
+        resArr.splice(numberPi, 2, resProp);
+        operSymbArr2.splice(numberPi, 1);
+        resultFunc(resArr, operSymbArr2);
+    }
+    if (square >= 0 && operSymbArr2.length !== 0) {
+        resProp = +resArr[square] * +resArr[square];
+        resArr.splice(square, 2, resProp);
+        operSymbArr2.splice(square, 1);
+        resultFunc(resArr, operSymbArr2);
+    }
+    if (percent >= 0 && operSymbArr2.length !== 0) {
+        resProp = ((+resArr[percent] * 0.01) * +resArr[percent-1]);
+        console.log(percent);
+        resArr.splice(percent, 1, resProp);
+        operSymbArr2.splice(percent, 1);
+        resultFunc(resArr, operSymbArr2);
+    }
+    if (sqRoot >= 0 && operSymbArr2.length !== 0) {
+        resProp = Math.sqrt(resArr[sqRoot+1]);
         resArr.splice(sqRoot, 2, resProp);
         operSymbArr2.splice(sqRoot, 1);
         resultFunc(resArr, operSymbArr2);
     }
-    if (multiple >= 0) {
+    if (multiple >= 0 && operSymbArr2.length !== 0) {
         resProp = +resArr[multiple] * +resArr[multiple + 1];
         resArr.splice(multiple, 2, resProp);
         operSymbArr2.splice(multiple, 1);
         resultFunc(resArr, operSymbArr2);
     }
 
-    if (divide >= 0) {
+    if (divide >= 0 && operSymbArr2.length !== 0) {
         resProp = +resArr[divide] / +resArr[divide + 1];
         resArr.splice(divide, 2, resProp);
         operSymbArr2.splice(divide, 1);
         resultFunc(resArr, operSymbArr2);
     }
 
-    if (plus >= 0) {
+    if (plus >= 0 && operSymbArr2.length !== 0) {
         resProp = +resArr[plus] + +resArr[plus + 1];
         resArr.splice(plus, 2, resProp);
         operSymbArr2.splice(plus, 1);
         resultFunc(resArr, operSymbArr2);
     }
 
-    if (minus >= 0) {
+    if (minus >= 0 && operSymbArr2.length !== 0) {
         resProp = +resArr[minus] - +resArr[minus + 1];
         resArr.splice(minus, 2, resProp);
         operSymbArr2.splice(minus, 1);
