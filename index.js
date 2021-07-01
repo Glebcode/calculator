@@ -164,7 +164,7 @@ function resultFunc(disArr, operSymbArr) {
     let square = operSymbArr2.indexOf('²');
 
     console.log("equalFunc", resArr);
-    console.log(operSymbArr2);
+    // console.log(operSymbArr2);
 
     // console.log(operSymbArr2.indexOf('×')) 
     if (operSymbArr2.length == 0) {
