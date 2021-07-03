@@ -34,7 +34,7 @@ function createBtn() {
 let addMenu = document.getElementById('addMenu');
 let operSymbArr = [];
 let operSymbArr2 = [];
-
+let useBrackets = false;
 
 //зміна операційних кнопок, через кнопку ("...").
 function changeableBtnFunc() {
@@ -69,18 +69,19 @@ function writeValidation(displayNum, displayedVal) {
         operSymbArr.push(displayNum)
     }
     if (displayNum === ')') {
+        useBrackets = true;
         return bracketsCheck(displayedVal);
     }
     if (operSymbol(displayNum)) {
         let disArr2 = displayedVal.split('');
         if (operSymbol((displayNum) && displayNum == '√')) {
             return true
-        }else if (operSymbol(disArr2[disArr2.length - 1] && displayNum == '√')) {
+        } else if (operSymbol(disArr2[disArr2.length - 1] && displayNum == '√')) {
             return false
         }
-    //     }else if (operSymbol(disArr2[disArr2.length - 1])) {
-    //     return false
-    // }
+        //     }else if (operSymbol(disArr2[disArr2.length - 1])) {
+        //     return false
+        // }
         // console.log(disArr2.length);
         // console.log('displayedVal', displayedVal);
     }
@@ -135,18 +136,29 @@ resultBtn.addEventListener('click', equalFunction);
 //функція equal, що викликає результативну функцію.
 
 function equalFunction() {
-    let arrDis = display.innerText;
-    console.log(" 1 ", arrDis);
-    let disArr = arrDis.split(/[^\d.]/g);
-    console.log(" 2 ", disArr);
-
+    let displayText = display.innerText;
+    let disArr = displayText.split(/[^\d.]/g);
+    if (useBrackets) {
+        console.log(useBrackets, 'useBrackets');
+        testBracketsFunc(displayText);
+        return
+    }
     console.log(operSymbArr);
     // operSymb = disArr.filter(function(item, index, array){
     // return item == "+" || item == "-" || item == "÷" || item == "×";
-    // console.log(operSymb);    
+    // console.log(operSymb);
     // });
-    // console.log(operSymb);    
+    // console.log(operSymb);
     resultFunc(disArr, operSymbArr);
+}
+
+function testBracketsFunc(displayText) {
+
+    let test = displayText.split('(')[displayText.split('(').length - 1].split(')');
+    console.log(test, 'test');
+    let test2 = ["6+2)"];
+    console.log("6+2)".split(")"), "split")
+    // console.log(arrDis.indexOf('('))
 }
 
 //функція, що проводить розрахунки введених даних.
@@ -166,15 +178,13 @@ function resultFunc(disArr, operSymbArr) {
     console.log("equalFunc", resArr);
     // console.log(operSymbArr2);
 
-    // console.log(operSymbArr2.indexOf('×')) 
-    if (operSymbArr2.length == 0) {
-        let clDisplay = display.innerText;
-        clDisplay = '';
+    // console.log(operSymbArr2.indexOf('×'))
+    if (operSymbArr2.length === 0) {
         display.innerText = disArr[0];
         return;
     }
     if (numberPi >= 0 && operSymbArr2.length !== 0) {
-        resProp = +resArr[numberPi] * +3.1415;
+        resProp = +resArr[numberPi] * 3.1415;
         resArr.splice(numberPi, 2, resProp);
         operSymbArr2.splice(numberPi, 1);
         resultFunc(resArr, operSymbArr2);
@@ -186,14 +196,14 @@ function resultFunc(disArr, operSymbArr) {
         resultFunc(resArr, operSymbArr2);
     }
     if (percent >= 0 && operSymbArr2.length !== 0) {
-        resProp = ((+resArr[percent] * 0.01) * +resArr[percent-1]);
+        resProp = ((+resArr[percent] * 0.01) * +resArr[percent - 1]);
         console.log(percent);
         resArr.splice(percent, 1, resProp);
         operSymbArr2.splice(percent, 1);
         resultFunc(resArr, operSymbArr2);
     }
     if (sqRoot >= 0 && operSymbArr2.length !== 0) {
-        resProp = Math.sqrt(resArr[sqRoot+1]);
+        resProp = Math.sqrt(resArr[sqRoot + 1]);
         resArr.splice(sqRoot, 2, resProp);
         operSymbArr2.splice(sqRoot, 1);
         resultFunc(resArr, operSymbArr2);
