@@ -225,6 +225,7 @@ function resultFunc(disArr, operSymbArr) {
         operSymbArr2.splice(minus, 1);
         resultFunc(resArr, operSymbArr2);
     }
+    //Fork
     // for (let i = 0; operSymbArr.length > i; i++) {
     //     if (operSymbArr[i] === '×') {
     //         resProp = +resArr[i] * +resArr[i+1];
