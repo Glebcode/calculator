@@ -34,7 +34,7 @@ function createBtn() {
 let addMenu = document.getElementById('addMenu');
 let operSymbArr = [];
 let operSymbArr2 = [];
-let useBrackets = false;
+let useBrackets = true;
 
 //зміна операційних кнопок, через кнопку ("...").
 function changeableBtnFunc() {
@@ -134,13 +134,14 @@ let resultBtn = document.getElementById('resultBtn');
 resultBtn.addEventListener('click', equalFunction);
 
 //функція equal, що викликає результативну функцію.
+testBracketsFunc('(9+3)-(6+3-6+3.3)');
 
 function equalFunction() {
     let displayText = display.innerText;
     let disArr = displayText.split(/[^\d.]/g);
     if (useBrackets) {
         console.log(useBrackets, 'useBrackets');
-        testBracketsFunc(displayText);
+        testBracketsFunc('(9+3)-(6+3-6+3.3)-6+3+(6-3)+2+3+3+(4-3)+2+3+2+3+2+3+(4-3)');
         return
     }
     console.log(operSymbArr);
@@ -153,11 +154,48 @@ function equalFunction() {
 }
 
 function testBracketsFunc(displayText) {
+    let emptyArr = [];
+    let test = displayText.split('(');
+    let correctIndex = [];
+    let currIdx = 1;
 
-    let test = displayText.split('(')[displayText.split('(').length - 1].split(')');
-    console.log(test, 'test');
-    let test2 = ["6+2)"];
-    console.log("6+2)".split(")"), "split")
+    test.forEach((item, idx) => {
+        // console.log(item, item.indexOf(')') >= 0, 'item.indexOf(\')\') >= 0')
+        if (item.indexOf(')') >= 0) {
+            let val = item.split(')');
+            // console.log(val, 'VALLL')
+
+            correctIndex.push(currIdx);
+            // console.log(currIdx, correctIndex, 'correctIndex[idx]');
+            currIdx = correctIndex[idx - 1] + 2;
+
+
+            let test2 = val[0].split(/[^\d.]/g);
+            let test3 = val[0].split(/[\d.]/g);
+            test3.shift();
+            resultFunc(test2, test3);
+            // console.log(test2, test3, 'jecnejcnejcn')
+            // console.log(resultFunc(test2, test3), 'resultFunc(test2, test3)')
+            val.length === 1 ? emptyArr.push(test2[0]) : emptyArr.push(test2[0]) && emptyArr.push(val[1]);
+        }
+    })
+
+    let test2 = [];
+    let test3 = [];
+    emptyArr.forEach((item) => {
+        if (operSymbol(item)) {
+            test3.push(item)
+        } else {
+            test2.push(item)
+        }
+    })
+    // let test3 = emptyArr
+
+    console.log(emptyArr, correctIndex, test2, test3, 'EMPTY')
+    useBrackets = false;
+    resultFunc(test2, test3);
+    // let test2 = ["6+2)"];
+    // console.log("6+2)".split(")"), "split")
     // console.log(arrDis.indexOf('('))
 }
 
@@ -174,12 +212,15 @@ function resultFunc(disArr, operSymbArr) {
     let percent = operSymbArr2.indexOf('%');
     let numberPi = operSymbArr2.indexOf('π');
     let square = operSymbArr2.indexOf('²');
-
+    debugger
     console.log("equalFunc", resArr);
     // console.log(operSymbArr2);
 
     // console.log(operSymbArr2.indexOf('×'))
-    if (operSymbArr2.length === 0) {
+    if (useBrackets && (operSymbArr2.length === 0 || disArr.length === 1)) {
+        return disArr[0]
+    }
+    if (operSymbArr2.length === 0 || disArr.length === 1) {
         display.innerText = disArr[0];
         return;
     }
@@ -222,47 +263,19 @@ function resultFunc(disArr, operSymbArr) {
         resultFunc(resArr, operSymbArr2);
     }
 
-    if (plus >= 0 && operSymbArr2.length !== 0) {
+    if (plus >= 0 && operSymbArr2.length !== 0 && disArr.length !== 1) {
         resProp = +resArr[plus] + +resArr[plus + 1];
         resArr.splice(plus, 2, resProp);
         operSymbArr2.splice(plus, 1);
         resultFunc(resArr, operSymbArr2);
     }
 
-    if (minus >= 0 && operSymbArr2.length !== 0) {
+    if (minus >= 0 && operSymbArr2.length !== 0 && disArr.length !== 1) {
         resProp = +resArr[minus] - +resArr[minus + 1];
         resArr.splice(minus, 2, resProp);
         operSymbArr2.splice(minus, 1);
         resultFunc(resArr, operSymbArr2);
     }
-    // for (let i = 0; operSymbArr.length > i; i++) {
-    //     if (operSymbArr[i] === '×') {
-    //         resProp = +resArr[i] * +resArr[i+1];
-    //         resArr.splice(i, 2, resProp);
-    //         operSymbArr.splice(i, 1);
-    //         resultFunc(resArr, operSymbArr2);
-    //     }
-    //     if (operSymbArr[i] === '÷') {
-    //         resProp = +resArr[i] / +resArr[i+1];
-    //         resArr.splice(i, 2, resProp);
-    //         operSymbArr.splice(i, 1);
-    //         resultFunc(resArr, operSymbArr2);
-    //     }
-    //     if(operSymbArr[i] === '+'){
-    //         resProp = +resArr[i] + +resArr[i+1];
-    //         resArr.splice(i, 2, resProp);
-    //         operSymbArr.splice(i, 1);
-    //         console.log(resArr);
-    //         resultFunc(resArr, operSymbArr2);
-    //     }
-    //     if(operSymbArr[i] === '-'){
-    //         resProp = +resArr[i] - +resArr[i+1];
-    //         resArr.splice(i, 2, resProp);
-    //         operSymbArr.splice(i, 1);
-    //         console.log(resArr);
-    //         resultFunc(resArr, operSymbArr2);
-    //     }
-    // }
 }
 
 //функція перевірки круглих дужок.
@@ -277,9 +290,5 @@ function bracketsCheck(displayedVal) {
     if (disArrBr[disArrBr.length - 1] === '(') {
         return false;
     }
-    if (counterLeft > counterRight) {
-        return true;
-    } else {
-        return false;
-    }
+    return counterLeft > counterRight;
 }
