@@ -134,7 +134,7 @@ let resultBtn = document.getElementById('resultBtn');
 resultBtn.addEventListener('click', equalFunction);
 
 //функція equal, що викликає результативну функцію.
-testBracketsFunc('(9+3)-(6+3-6+3.3)');
+testBracketsFunc('(9+3)-(9-3)+10');
 
 function equalFunction() {
     let displayText = display.innerText;
@@ -179,21 +179,52 @@ function testBracketsFunc(displayText) {
             val.length === 1 ? emptyArr.push(test2[0]) : emptyArr.push(test2[0]) && emptyArr.push(val[1]);
         }
     })
+    console.log(emptyArr, 'emptyArr')
+    let numArr = [];
+    let operArr = [];
+    let currentNum = '';
+    let externalIdx = 0;
+    let test2 = emptyArr.join('').split('');
+    console.log(test2, 'test2')
 
-    let test2 = [];
-    let test3 = [];
-    emptyArr.forEach((item) => {
-        if (operSymbol(item)) {
-            test3.push(item)
-        } else {
-            test2.push(item)
+    for(let i = 0; test2.length > i; i++){
+        if (operSymbol(test2[i]) && (test2[i-1] === '-')){
+            currentNum += test2[i];
+            continue
         }
-    })
+        if (!operSymbol(test2[i])){
+            currentNum += test2[i];
+        }
+        if (operSymbol(test2[i])){
+            numArr[externalIdx] = currentNum;
+            externalIdx++;
+            currentNum = '';
+            operArr.push(test2[i]);
+        }
+        if(i === test2.length - 1){
+            numArr[externalIdx] = currentNum;
+        }
+    }
+
+
+
+    console.log(numArr, 'empty', operArr, 'operArr', 'test3', 'EMPTY')
+    // let test3 = test2.forEach((el)=>{
+    //     console.log(el)});
+    // let test4 = test2.split(/[\d.]/g).filter((item)=> item !== "");
+    // emptyArr.forEach((item) => {
+    //     if (operSymbol(item)) {
+    //         test3.push(item)
+    //     } else {
+    //         test2.push(item)
+    //     }
+    // })
     // let test3 = emptyArr
 
-    console.log(emptyArr, correctIndex, test2, test3, 'EMPTY')
+
+
     useBrackets = false;
-    resultFunc(test2, test3);
+    resultFunc(numArr, operArr);
     // let test2 = ["6+2)"];
     // console.log("6+2)".split(")"), "split")
     // console.log(arrDis.indexOf('('))
@@ -212,9 +243,8 @@ function resultFunc(disArr, operSymbArr) {
     let percent = operSymbArr2.indexOf('%');
     let numberPi = operSymbArr2.indexOf('π');
     let square = operSymbArr2.indexOf('²');
-    debugger
+    // debugger
     console.log("equalFunc", resArr);
-    // console.log(operSymbArr2);
 
     // console.log(operSymbArr2.indexOf('×'))
     if (useBrackets && (operSymbArr2.length === 0 || disArr.length === 1)) {
