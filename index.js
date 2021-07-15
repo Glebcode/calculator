@@ -134,7 +134,7 @@ let resultBtn = document.getElementById('resultBtn');
 resultBtn.addEventListener('click', equalFunction);
 
 //функція equal, що викликає результативну функцію.
-testBracketsFunc('(9+3)-(9-3)+10');
+testBracketsFunc('(9+3)-(6+3-6+3.3)-6+3+(6-3)+2+3+3+(4-3)+2+3+2+3+2+3+(4-3)');
 
 function equalFunction() {
     let displayText = display.innerText;
@@ -293,17 +293,18 @@ function resultFunc(disArr, operSymbArr) {
         resultFunc(resArr, operSymbArr2);
     }
 
-    if (plus >= 0 && operSymbArr2.length !== 0 && disArr.length !== 1) {
-        resProp = +resArr[plus] + +resArr[plus + 1];
-        resArr.splice(plus, 2, resProp);
-        operSymbArr2.splice(plus, 1);
-        resultFunc(resArr, operSymbArr2);
-    }
+
 
     if (minus >= 0 && operSymbArr2.length !== 0 && disArr.length !== 1) {
         resProp = +resArr[minus] - +resArr[minus + 1];
         resArr.splice(minus, 2, resProp);
         operSymbArr2.splice(minus, 1);
+        resultFunc(resArr, operSymbArr2);
+    }
+    if (plus >= 0 && operSymbArr2.length !== 0 && disArr.length !== 1) {
+        resProp = +resArr[plus] + +resArr[plus + 1];
+        resArr.splice(plus, 2, resProp);
+        operSymbArr2.splice(plus, 1);
         resultFunc(resArr, operSymbArr2);
     }
 }
