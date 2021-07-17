@@ -63,38 +63,59 @@ btnValue.forEach(function (item) {
 
 //функція перевірки правильності введення цифр і символів в розрахункове поле.
 function writeValidation(displayNum, displayedVal) {
-    counterClick++
-    // якщо, функція operSymbol вертає параметр displayNum то розбити строку displayedVal через заданий дільник.
+    let wrVlArr = displayedVal.split('');
+    // console.log(wrVlArr);
+    // console.log(wrVlArr[wrVlArr.length-1]);
+    let sym = wrVlArr[wrVlArr.length - 1];
     if (operSymbol(displayNum)) {
         operSymbArr.push(displayNum)
     }
+    console.log(sym == '%' , sym == '²' , sym == 'π' , displayNum == '%' , displayNum == '√' , displayNum == '²' , displayNum == 'π' )
+    if ((sym == '%' || sym == '²' || sym == 'π') && (displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π' )) {
+        console.log('1');
+        return false
+    }
+    if (operSymbol(displayNum) && !displayedVal.length && displayNum == '√') {
+        console.log('2');
+        return true
+    }
+    if (operSymbol(displayNum) && !displayedVal.length) {
+        console.log('3');
+        return false
+    }
+    if (operSymbol(displayNum) && sym == '%' || sym == '²' || sym == 'π' && displayNum !== '%') {
+        console.log('4');
+        return true
+    }
+    if (!operSymbol(sym) && displayNum == '√') {
+        console.log('5');
+        return false
+    }
+    if ( sym == '√'  && (displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π' )) {
+        console.log('6');
+        return false
+    }
+    if (operSymbol(displayNum) && displayNum !== '√' && (sym == '×' || sym == '÷' || sym == '-' || sym == '+' || sym == '%' || sym == '²' || sym == 'π')) {
+        console.log(wrVlArr);
+        console.log('before', sym);
+        console.log('next', displayNum);
+        return false
+    }
+    if(sym == '√' && displayNum == '√'){
+        return false
+    }
+    // якщо, функція operSymbol вертає параметр displayNum то розбити строку displayedVal через заданий дільник.
     if (displayNum === ')') {
         return bracketsCheck(displayedVal);
     }
-    if (operSymbol(displayNum)) {
-        let disArr2 = displayedVal.split('');
-        if (operSymbol((displayNum) && displayNum == '√')) {
-            return true
-        }else if (operSymbol(disArr2[disArr2.length - 1] && displayNum == '√')) {
-            return false
-        }
-    //     }else if (operSymbol(disArr2[disArr2.length - 1])) {
-    //     return false
+    // else if (operSymbol(displayNum) && displayNum == '√') {
+    //     console.log('hy1');
+    //     return true
     // }
-        // console.log(disArr2.length);
-        // console.log('displayedVal', displayedVal);
-    }
-
-    // якщо, !displayedVal.length 0 то фолс, не записувати натискання на displayNum, крім '√'.
-    if (operSymbol(displayNum) && displayNum == '√') {
-        return true
-    } else if (operSymbol(displayNum) && !displayedVal.length) {
-        return false
-    }
     // для того, щоб інші кнопки працювали при натисканні.
-    if (!displayedVal.length) {
-        return true
-    }
+    // if (!displayedVal.length) {
+    //     return true
+    // }
     return true
 }
 
@@ -186,14 +207,14 @@ function resultFunc(disArr, operSymbArr) {
         resultFunc(resArr, operSymbArr2);
     }
     if (percent >= 0 && operSymbArr2.length !== 0) {
-        resProp = ((+resArr[percent] * 0.01) * +resArr[percent-1]);
+        resProp = ((+resArr[percent] * 0.01) * +resArr[percent - 1]);
         console.log(percent);
         resArr.splice(percent, 1, resProp);
         operSymbArr2.splice(percent, 1);
         resultFunc(resArr, operSymbArr2);
     }
     if (sqRoot >= 0 && operSymbArr2.length !== 0) {
-        resProp = Math.sqrt(resArr[sqRoot+1]);
+        resProp = Math.sqrt(resArr[sqRoot + 1]);
         resArr.splice(sqRoot, 2, resProp);
         operSymbArr2.splice(sqRoot, 1);
         resultFunc(resArr, operSymbArr2);
@@ -211,7 +232,12 @@ function resultFunc(disArr, operSymbArr) {
         operSymbArr2.splice(divide, 1);
         resultFunc(resArr, operSymbArr2);
     }
-
+    if (minus >= 0 && operSymbArr2.length !== 0) {
+        resProp = +resArr[minus] - +resArr[minus + 1];
+        resArr.splice(minus, 2, resProp);
+        operSymbArr2.splice(minus, 1);
+        resultFunc(resArr, operSymbArr2);
+    }
     if (plus >= 0 && operSymbArr2.length !== 0) {
         resProp = +resArr[plus] + +resArr[plus + 1];
         resArr.splice(plus, 2, resProp);
@@ -219,12 +245,7 @@ function resultFunc(disArr, operSymbArr) {
         resultFunc(resArr, operSymbArr2);
     }
 
-    if (minus >= 0 && operSymbArr2.length !== 0) {
-        resProp = +resArr[minus] - +resArr[minus + 1];
-        resArr.splice(minus, 2, resProp);
-        operSymbArr2.splice(minus, 1);
-        resultFunc(resArr, operSymbArr2);
-    }
+   
     //Fork
     // for (let i = 0; operSymbArr.length > i; i++) {
     //     if (operSymbArr[i] === '×') {
