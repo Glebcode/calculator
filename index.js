@@ -105,9 +105,12 @@ function writeValidation(displayNum, displayedVal) {
         return false
     }
     // якщо, функція operSymbol вертає параметр displayNum то розбити строку displayedVal через заданий дільник.
-    if (displayNum === ')') {
-        return bracketsCheck(displayedVal);
+    if (displayNum === ')' || displayNum === '(' ) {
+        return bracketsCheck(displayedVal, displayNum);
     }
+    // if (displayNum === '(') {
+    //     return bracketsCheck2(displayedVal);
+    // }
     // else if (operSymbol(displayNum) && displayNum == '√') {
     //     console.log('hy1');
     //     return true
@@ -278,7 +281,7 @@ function resultFunc(disArr, operSymbArr) {
 }
 
 //функція перевірки круглих дужок.
-function bracketsCheck(displayedVal) {
+function bracketsCheck(displayedVal, displayNum) {
     let disArrBr = displayedVal.split('');
     let counterLeft = 0;
     let counterRight = 0;
@@ -286,11 +289,36 @@ function bracketsCheck(displayedVal) {
         if (item === '(') counterLeft++;
         if (item === ')') counterRight++;
     })
+    
+    let counterRight2 = counterRight - 1;
+    
+    if (counterLeft < counterRight) {
+        console.log('1');
+        return false;
+    } 
     if (disArrBr[disArrBr.length - 1] === '(') {
+        console.log('2');
         return false;
     }
     if (counterLeft > counterRight) {
+        console.log('3');
         return true;
+    } 
+    if(bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum)){
+        console.log('4');
+        return true;
+    }  else {
+        return true;
+    }
+}
+function bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum){   
+    if(counterLeft > 0 && displayNum !== ')' && disArrBr[disArrBr.length - 1] === ')' && counterRight <= counterLeft){
+        console.log('2.1');
+        display.innerText += '×';
+    }
+    if (disArrBr.length > 0 && !operSymbol(disArrBr[disArrBr.length - 1]) && disArrBr[disArrBr.length - 1] !== '(' && disArrBr[disArrBr.length - 1] !== ')'){
+        console.log('2.2');
+        display.innerText += '×(';
     } else {
         return false;
     }
