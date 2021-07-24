@@ -167,9 +167,9 @@ function equalFunction() {
     console.log(operSymbArr);
     // operSymb = disArr.filter(function(item, index, array){
     // return item == "+" || item == "-" || item == "÷" || item == "×";
-    // console.log(operSymb);    
+    // console.log(operSymb);
     // });
-    // console.log(operSymb);    
+    // console.log(operSymb);
     resultFunc(disArr, operSymbArr);
 }
 
@@ -190,7 +190,7 @@ function resultFunc(disArr, operSymbArr) {
     console.log("equalFunc", resArr);
     // console.log(operSymbArr2);
 
-    // console.log(operSymbArr2.indexOf('×')) 
+    // console.log(operSymbArr2.indexOf('×'))
     if (operSymbArr2.length == 0) {
         let clDisplay = display.innerText;
         clDisplay = '';
@@ -248,7 +248,7 @@ function resultFunc(disArr, operSymbArr) {
         resultFunc(resArr, operSymbArr2);
     }
 
-   
+
     //Fork
     // for (let i = 0; operSymbArr.length > i; i++) {
     //     if (operSymbArr[i] === '×') {
@@ -282,6 +282,8 @@ function resultFunc(disArr, operSymbArr) {
 
 //функція перевірки круглих дужок.
 function bracketsCheck(displayedVal, displayNum) {
+    let neutralCounter = 0;
+    let finalResult = false;
     let disArrBr = displayedVal.split('');
     let counterLeft = 0;
     let counterRight = 0;
@@ -289,29 +291,33 @@ function bracketsCheck(displayedVal, displayNum) {
         if (item === '(') counterLeft++;
         if (item === ')') counterRight++;
     })
-    
+
     let counterRight2 = counterRight - 1;
-    
+
     if (counterLeft < counterRight) {
         console.log('1');
-        return false;
-    } 
+        neutralCounter++
+    }
     if (disArrBr[disArrBr.length - 1] === '(') {
         console.log('2');
-        return false;
+        neutralCounter++
     }
     if (counterLeft > counterRight) {
         console.log('3');
-        return true;
-    } 
-    if(bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum)){
-        console.log('4');
-        return true;
-    }  else {
-        return true;
+        // return true;
     }
+    if(bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum)){
+        neutralCounter++
+    }
+    // console.log(neutralCounter === 0)
+
+    console.log(finalResult, neutralCounter,  'finalResultfinalResult1')
+    finalResult = neutralCounter === 0;
+    console.log(finalResult, neutralCounter,  'finalResultfinalResult2')
+    return finalResult
 }
-function bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum){   
+function bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum){
+
     if(counterLeft > 0 && displayNum !== ')' && disArrBr[disArrBr.length - 1] === ')' && counterRight <= counterLeft){
         console.log('2.1');
         display.innerText += '×';
@@ -319,7 +325,6 @@ function bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, count
     if (disArrBr.length > 0 && !operSymbol(disArrBr[disArrBr.length - 1]) && disArrBr[disArrBr.length - 1] !== '(' && disArrBr[disArrBr.length - 1] !== ')'){
         console.log('2.2');
         display.innerText += '×(';
-    } else {
-        return false;
+
     }
 }
