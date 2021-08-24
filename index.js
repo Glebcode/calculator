@@ -64,7 +64,7 @@ btnValue.forEach(function (item) {
 //функція перевірки правильності введення цифр і символів в розрахункове поле.
 function writeValidation(displayNum, displayedVal) {
     let wrVlArr = displayedVal.split('');
-    // console.log(wrVlArr);
+    console.log(displayedVal[displayedVal.length-1]);
     // console.log(wrVlArr[wrVlArr.length-1]);
     let sym = wrVlArr[wrVlArr.length - 1];
     if (operSymbol(displayNum)) {
@@ -105,9 +105,10 @@ function writeValidation(displayNum, displayedVal) {
         return false
     }
     // якщо, функція operSymbol вертає параметр displayNum то розбити строку displayedVal через заданий дільник.
-    if (displayNum === ')' || displayNum === '(' ) {
+    if (displayNum === ')' || displayNum === '(' || displayedVal[displayedVal.length-1] == ')') {
         return bracketsCheck(displayedVal, displayNum);
     }
+
     // if (displayNum === '(') {
     //     return bracketsCheck2(displayedVal);
     // }
@@ -291,6 +292,8 @@ function bracketsCheck(displayedVal, displayNum) {
         if (item === '(') counterLeft++;
         if (item === ')') counterRight++;
     })
+console.log('cL', counterLeft)
+console.log('cR', counterRight)
 
     let counterRight2 = counterRight - 1;
 
@@ -307,24 +310,39 @@ function bracketsCheck(displayedVal, displayNum) {
         // return true;
     }
     if(bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum)){
-        neutralCounter++
+        console.log('4');
+        // neutralCounter++
     }
-    // console.log(neutralCounter === 0)
-
-    console.log(finalResult, neutralCounter,  'finalResultfinalResult1')
+    console.log(neutralCounter === 0)
+    console.log(finalResult, neutralCounter,  'finalResult 1')
     finalResult = neutralCounter === 0;
-    console.log(finalResult, neutralCounter,  'finalResultfinalResult2')
-    return finalResult
+    console.log(finalResult, neutralCounter,  'finalResult 2')
+    return finalResult;
 }
 function bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum){
-
-    if(counterLeft > 0 && displayNum !== ')' && disArrBr[disArrBr.length - 1] === ')' && counterRight <= counterLeft){
+    let neutralCount = 0;
+    let finRes = true;
+    // if (disArrBr.length > 0 && displayNum == '('){
+    //     neutralCount++
+    // }
+    if (counterLeft > 0 && displayNum !== ')' && disArrBr[disArrBr.length - 1] === ')' && counterRight <= counterLeft){
         console.log('2.1');
+       if(displayNum !== '+'|| displayNum !== '-' || displayNum !== '×' || displayNum !== '÷' || displayNum !== '%' || displayNum !== '²' || displayNum !== 'π') {
+           display.innerText += '×';
+       }
+       neutralCount++
+    }
+    if (disArrBr.length > 0 && !operSymbol(disArrBr[disArrBr.length - 1]) && displayNum !== ')' && disArrBr[disArrBr.length - 1] !== ')'){
+        console.log('2.2');
+        neutralCount++
         display.innerText += '×';
     }
-    if (disArrBr.length > 0 && !operSymbol(disArrBr[disArrBr.length - 1]) && disArrBr[disArrBr.length - 1] !== '(' && disArrBr[disArrBr.length - 1] !== ')'){
-        console.log('2.2');
-        display.innerText += '×(';
-
-    }
+    // if(disArrBr.length > 0 && disArrBr[disArrBr.length - 1] == ')' && displayNum !== operSymbol(displayNum)){
+    //     neutralCount++
+    //     // display.innerText += '×';
+    // }
+     console.log(finRes, neutralCount,  '2nd 1st')
+     finRes = neutralCount === 0;
+     console.log(finRes, neutralCount,  '2nd 2nd')
+     return finRes;
 }
