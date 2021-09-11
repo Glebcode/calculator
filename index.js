@@ -64,16 +64,48 @@ btnValue.forEach(function (item) {
 //функція перевірки правильності введення цифр і символів в розрахункове поле.
 function writeValidation(displayNum, displayedVal) {
     let wrVlArr = displayedVal.split('');
-    console.log(displayedVal[displayedVal.length-1]);
-    // console.log(wrVlArr[wrVlArr.length-1]);
     let sym = wrVlArr[wrVlArr.length - 1];
+
+    let indices = [];
+    let NumCountInside = 0;
+    let idx = wrVlArr.indexOf('√');
+
+    while (idx != -1) {
+        indices.push(idx);
+        idx = wrVlArr.indexOf('√', idx + 1);
+    }
+
+    let lastSqRootIndex = indices[indices.length - 1];
+
+    for (let i = lastSqRootIndex; i <= wrVlArr.length - 1; i++) {
+        if (wrVlArr[i] !== '×' || wrVlArr[i] !== '÷' || wrVlArr[i] !== '-' || wrVlArr[i] !== '+' || wrVlArr[i] !== 'π') {
+            NumCountInside == 0
+        } else {
+            NumCountInside++
+        }
+    }
+
     if (operSymbol(displayNum)) {
         operSymbArr.push(displayNum)
     }
-    console.log(sym == '%' , sym == '²' , sym == 'π' , displayNum == '%' , displayNum == '√' , displayNum == '²' , displayNum == 'π' )
-    if ((sym == '%' || sym == '²' || sym == 'π') && (displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π' )) {
+    console.log(sym == '%', sym == '²', sym == 'π', displayNum == '%', displayNum == '√', displayNum == '²', displayNum == 'π')
+    if ((sym == '%' || sym == '²' || sym == 'π') && (displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π')) {
         console.log('1');
         return false
+    }
+
+    if(indices.length > 0 && NumCountInside == 0 && (displayNum == '%' || displayNum == '²')){
+        return false
+    }
+
+    if (operSymbol(displayNum) && sym === '(') {
+        return false
+    }
+    if(!operSymbol(displayNum) && (sym == '%' || sym == '²' || sym == 'π')){
+        display.innerText += '×';
+    }
+    if (!operSymbol(displayNum) && displayNum !== '(' && sym === ')') {
+        display.innerText += '×';
     }
     if (operSymbol(displayNum) && !displayedVal.length && displayNum == '√') {
         console.log('2');
@@ -83,7 +115,7 @@ function writeValidation(displayNum, displayedVal) {
         console.log('3');
         return false
     }
-    if (operSymbol(displayNum) && sym == '%' || sym == '²' || sym == 'π' && displayNum !== '%') {
+    if (operSymbol(displayNum) && (sym == '%' || sym == '²' || sym == 'π') && displayNum !== '%') {
         console.log('4');
         return true
     }
@@ -91,7 +123,7 @@ function writeValidation(displayNum, displayedVal) {
         console.log('5');
         return false
     }
-    if ( sym == '√'  && (displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π' )) {
+    if (sym == '√' && (displayNum == '×' || displayNum == '÷' || displayNum == '-' || displayNum == '+' || displayNum == '%' || displayNum == '√' || displayNum == '²' || displayNum == 'π')) {
         console.log('6');
         return false
     }
@@ -101,14 +133,16 @@ function writeValidation(displayNum, displayedVal) {
         console.log('next', displayNum);
         return false
     }
-    if(sym == '√' && displayNum == '√'){
+    if (sym == '√' && displayNum == '√') {
         return false
     }
     // якщо, функція operSymbol вертає параметр displayNum то розбити строку displayedVal через заданий дільник.
-    if (displayNum === ')' || displayNum === '(' || displayedVal[displayedVal.length-1] == ')') {
+    if (displayNum === ')') {
         return bracketsCheck(displayedVal, displayNum);
     }
-
+    if (displayNum === '(') {
+        return bracketsCheck2(displayedVal, displayNum);
+    }
     // if (displayNum === '(') {
     //     return bracketsCheck2(displayedVal);
     // }
@@ -288,61 +322,94 @@ function bracketsCheck(displayedVal, displayNum) {
     let disArrBr = displayedVal.split('');
     let counterLeft = 0;
     let counterRight = 0;
+    let indices = [];
+    let NumCountInside = 0;
+    let lastDisArrSym = disArrBr[disArrBr.length-1];
     disArrBr.forEach((item) => {
         if (item === '(') counterLeft++;
         if (item === ')') counterRight++;
     })
-console.log('cL', counterLeft)
-console.log('cR', counterRight)
 
-    let counterRight2 = counterRight - 1;
+    let idx = disArrBr.indexOf('(');
+    while (idx != -1) {
+        indices.push(idx);
+        idx = disArrBr.indexOf('(', idx + 1);
+    }
+    console.log("indicesOfBrLf", indices)
 
+    let lastBrLfIndex = indices[indices.length - 1];
+
+    console.log("LastIndiceOfBrLf", lastBrLfIndex)
+
+    for (let i = lastBrLfIndex; i <= disArrBr.length - 1; i++) {
+        // console.log('CheckFor', disArrBr[i])
+        if (disArrBr[i] === '×' || disArrBr[i] === '÷' || disArrBr[i] === '-' || disArrBr[i] === '+' || disArrBr[i] === '%' || disArrBr[i] === '√' || disArrBr[i] === '²' || disArrBr[i] === 'π') {
+            NumCountInside++
+            console.log('NumCountInsideIf', NumCountInside)
+        }
+    }
+
+    // disArrBr.forEach(function (item, lastBrLfIndex, array) {
+    //     if (item === operSymbol(displayNum)) {
+    //         NumCountInside++;
+    //     }
+    // })
+    // console.log('cL', counterLeft)
+    // console.log('cR', counterRight)
+    console.log('NumCountInside', NumCountInside)
+
+    if (NumCountInside <= 0) {
+        return false
+    }
+    // if(lastDisArrSym == '²' || lastDisArrSym == 'π'){
+    //     console.log('lastDisArrSym');
+    //     return false
+    // }
     if (counterLeft < counterRight) {
         console.log('1');
+        return false
         neutralCounter++
     }
     if (disArrBr[disArrBr.length - 1] === '(') {
         console.log('2');
-        neutralCounter++
+        return false
+    }
+    if (disArrBr.length < 3) {
+        return false
+    }
+    if (operSymbol(disArrBr[disArrBr.length - 1])) {
+        return false
     }
     if (counterLeft > counterRight) {
         console.log('3');
-        // return true;
+        return true;
     }
-    if(bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum)){
-        console.log('4');
-        // neutralCounter++
-    }
-    console.log(neutralCounter === 0)
-    console.log(finalResult, neutralCounter,  'finalResult 1')
-    finalResult = neutralCounter === 0;
-    console.log(finalResult, neutralCounter,  'finalResult 2')
-    return finalResult;
+    // if(bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum)){
+    //     console.log('4');
+    // }
+    // console.log(neutralCounter === 0)
+    // console.log(finalResult, neutralCounter,  'finalResult 1')
+    // finalResult = neutralCounter === 0;
+    // console.log(finalResult, neutralCounter,  'finalResult 2')
+    // return finalResult;
 }
-function bracketsCheck2(displayedVal, counterLeft, counterRight, disArrBr, counterRight2, displayNum){
-    let neutralCount = 0;
-    let finRes = true;
-    // if (disArrBr.length > 0 && displayNum == '('){
-    //     neutralCount++
-    // }
-    if (counterLeft > 0 && displayNum !== ')' && disArrBr[disArrBr.length - 1] === ')' && counterRight <= counterLeft){
-        console.log('2.1');
-       if(displayNum !== '+'|| displayNum !== '-' || displayNum !== '×' || displayNum !== '÷' || displayNum !== '%' || displayNum !== '²' || displayNum !== 'π') {
-           display.innerText += '×';
-       }
-       neutralCount++
+
+function bracketsCheck2(displayedVal, displayNum) {
+    // let neutralCount = 0;
+    // let finRes = true;
+
+    let disArrBr = displayedVal.split('');
+    let sym = disArrBr[disArrBr.length - 1];
+    if (disArrBr[disArrBr.length - 1] === '(') {
+        return false
     }
-    if (disArrBr.length > 0 && !operSymbol(disArrBr[disArrBr.length - 1]) && displayNum !== ')' && disArrBr[disArrBr.length - 1] !== ')'){
-        console.log('2.2');
-        neutralCount++
-        display.innerText += '×';
+    if (disArrBr.length > 0 && !operSymbol(sym) || disArrBr[disArrBr.length - 1] === ')') {
+        display.innerText += '×' + displayNum;
+    } else {
+        return true
     }
-    // if(disArrBr.length > 0 && disArrBr[disArrBr.length - 1] == ')' && displayNum !== operSymbol(displayNum)){
-    //     neutralCount++
-    //     // display.innerText += '×';
-    // }
-     console.log(finRes, neutralCount,  '2nd 1st')
-     finRes = neutralCount === 0;
-     console.log(finRes, neutralCount,  '2nd 2nd')
-     return finRes;
+    //  console.log(finRes, neutralCount,  '2nd 1st')
+    //  finRes = neutralCount === 0;
+    //  console.log(finRes, neutralCount,  '2nd 2nd')
+    //  return finRes;
 }
